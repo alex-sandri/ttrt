@@ -30,7 +30,7 @@ jobs:
         run: flutter pub get
 
       - name: build
-        run: flutter build web
+        run: flutter build web --base-href /ttrt/
 
       - name: deploy
         uses: JamesIves/github-pages-deploy-action@v4.3.3
