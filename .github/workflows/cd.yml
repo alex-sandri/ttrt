@@ -1,0 +1,39 @@
+name: CD
+
+on:
+  push:
+    branches:
+      - 'main'
+
+env:
+  FLUTTER_CHANNEL: stable
+  FLUTTER_VERSION: '3.0.0'
+
+jobs:
+  cd:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3.0.2
+
+      - name: setup (flutter)
+        uses: subosito/flutter-action@v2.4.0
+        with:
+          channel: ${{ env.FLUTTER_CHANNEL }}
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
+          cache-key: flutter-${{ runner.os }}
+
+      - name: dependencies
+        run: flutter pub get
+
+      - name: build
+        run: flutter build web
+
+      - name: deploy
+        uses: JamesIves/github-pages-deploy-action@v4.3.3
+        with:
+          branch: gh-pages
+          folder: build/web
