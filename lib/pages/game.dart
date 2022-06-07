@@ -2,16 +2,31 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'package:ttrt/bloc/game/bloc.dart';
 import 'package:ttrt/bloc/game/state.dart';
 import 'package:ttrt/constants/colors.dart';
 import 'package:ttrt/pages/home.dart';
 import 'package:ttrt/pages/lost.dart';
 
-class GamePage extends StatelessWidget {
+class GamePage extends StatefulWidget {
   static const int itemsPerRow = 4;
 
   const GamePage({super.key});
+
+  @override
+  State<GamePage> createState() => _GamePageState();
+}
+
+class _GamePageState extends State<GamePage> {
+  @override
+  void initState() {
+    super.initState();
+
+    context.read<GameBloc>().timer.onExecute
+      ..add(StopWatchExecute.reset)
+      ..add(StopWatchExecute.start);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -102,45 +117,16 @@ class GamePage extends StatelessWidget {
   }
 }
 
-class _GameStatus extends StatefulWidget {
+class _GameStatus extends StatelessWidget {
   const _GameStatus();
-
-  @override
-  State<_GameStatus> createState() => _GameStatusState();
-}
-
-class _GameStatusState extends State<_GameStatus> {
-  static const int ticksPerSecond = 200;
-
-  @override
-  void initState() {
-    super.initState();
-
-    Timer.periodic(
-      const Duration(milliseconds: 1000 ~/ ticksPerSecond),
-      (timer) {
-        if (!mounted) {
-          timer.cancel();
-
-          return;
-        }
-
-        context.read<GameBloc>().incrementTime(1000 ~/ ticksPerSecond);
-      },
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(15),
-      child: BlocBuilder<GameBloc, GameState>(
-        builder: (context, state) {
-          final String minutesString =
-              '${state.timeInSeconds ~/ 60}'.padLeft(2, '0');
-          final String secondsString =
-              '${state.timeInSeconds % 60}'.padLeft(2, '0');
-
+      child: StreamBuilder<int>(
+        stream: context.read<GameBloc>().timer.rawTime,
+        builder: (context, snapshot) {
           return Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -148,7 +134,11 @@ class _GameStatusState extends State<_GameStatus> {
                 children: [
                   const Text('Time', style: TextStyle(fontSize: 16)),
                   Text(
-                    '$minutesString:$secondsString',
+                    StopWatchTimer.getDisplayTime(
+                      snapshot.data ?? 0,
+                      hours: false,
+                      milliSecond: false,
+                    ),
                     style: const TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.bold,
@@ -159,12 +149,16 @@ class _GameStatusState extends State<_GameStatus> {
               Column(
                 children: [
                   const Text('Score', style: TextStyle(fontSize: 16)),
-                  Text(
-                    '${state.score}',
-                    style: const TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  BlocBuilder<GameBloc, GameState>(
+                    builder: (context, state) {
+                      return Text(
+                        '${state.score}',
+                        style: const TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      );
+                    },
                   ),
                 ],
               ),
@@ -223,51 +217,39 @@ class _ProgressIndicator extends StatefulWidget {
 
 class _ProgressIndicatorState extends State<_ProgressIndicator> {
   static const int durationInSeconds = 5;
-  static const int ticksPerSecond = 200;
 
-  double _progress = 0;
+  double _previousProgess = 0;
 
   @override
-  void initState() {
-    super.initState();
-
-    Timer.periodic(
-      const Duration(milliseconds: 1000 ~/ ticksPerSecond),
-      (timer) {
-        if (!mounted) {
-          timer.cancel();
-
-          return;
-        }
-
+  Widget build(BuildContext context) {
+    return StreamBuilder<int>(
+      stream: context.read<GameBloc>().timer.rawTime,
+      builder: (context, snapshot) {
         final double millisecondsElapsedSinceLastColor =
-            context.read<GameBloc>().state.time % (durationInSeconds * 1000);
+            (snapshot.data ?? 0) % (durationInSeconds * 1000);
 
         double progress =
             millisecondsElapsedSinceLastColor / (durationInSeconds * 1000);
 
-        if (progress < _progress) {
+        if (progress < _previousProgess) {
           progress = 0;
 
           context.read<GameBloc>().changeCurrentColor();
         }
 
-        setState(() => _progress = progress);
-      },
-    );
-  }
+        _previousProgess = progress;
 
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<GameBloc, GameState>(
-      builder: (context, state) {
-        return Material(
-          child: LinearProgressIndicator(
-            value: 1 - _progress,
-            valueColor: AlwaysStoppedAnimation(state.currentColor),
-            backgroundColor: state.currentColor.withOpacity(0.2),
-            minHeight: 20,
-          ),
+        return BlocBuilder<GameBloc, GameState>(
+          builder: (context, state) {
+            return Material(
+              child: LinearProgressIndicator(
+                value: 1 - progress,
+                valueColor: AlwaysStoppedAnimation(state.currentColor),
+                backgroundColor: state.currentColor.withOpacity(0.2),
+                minHeight: 20,
+              ),
+            );
+          },
         );
       },
     );

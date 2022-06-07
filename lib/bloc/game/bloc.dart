@@ -1,28 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'package:ttrt/bloc/game/state.dart';
 import 'package:ttrt/constants/colors.dart';
 
 class GameBloc extends Cubit<GameState> {
   static const int loseAfterErrors = 3;
 
-  GameBloc() : super(const GameState());
+  final StopWatchTimer timer;
+
+  GameBloc({required this.timer}) : super(const GameState());
 
   void start() => emit(const GameState());
 
-  void toggleIsPaused() => emit(state.copyWith(isPaused: !state.isPaused));
+  void toggleIsPaused() {
+    final bool willBePaused = !state.isPaused;
+
+    timer.onExecute
+        .add(willBePaused ? StopWatchExecute.stop : StopWatchExecute.start);
+
+    emit(state.copyWith(isPaused: willBePaused));
+  }
 
   void changeCurrentColor() =>
       emit(state.copyWith(currentColor: colors.random));
-
-  /// Increment game time by [milliseconds] milliseconds
-  void incrementTime(int milliseconds) {
-    if (state.isPaused) {
-      return;
-    }
-
-    emit(state.copyWith(time: state.time + milliseconds));
-  }
 
   void handleTap(Color color) {
     if (state.currentColor != color) {

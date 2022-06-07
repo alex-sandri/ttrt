@@ -37,6 +37,7 @@ dependencies:
   flutter_bloc: ^8.0.1
   url_launcher: ^6.1.2
   package_info_plus: ^1.4.2
+  stop_watch_timer: ^1.5.0
 
 dev_dependencies:
   flutter_test:

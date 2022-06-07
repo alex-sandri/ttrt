@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'package:ttrt/bloc/game/bloc.dart';
 import 'package:ttrt/bloc/game/state.dart';
 import 'package:ttrt/pages/game.dart';
@@ -22,43 +23,42 @@ class LostPage extends StatelessWidget {
             const SizedBox(height: 30),
             Padding(
               padding: const EdgeInsets.all(15),
-              child: BlocBuilder<GameBloc, GameState>(
-                builder: (context, state) {
-                  final String minutesString =
-                      '${state.timeInSeconds ~/ 60}'.padLeft(2, '0');
-                  final String secondsString =
-                      '${state.timeInSeconds % 60}'.padLeft(2, '0');
-
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Column(
                     children: [
-                      Column(
-                        children: [
-                          const Text('Time', style: TextStyle(fontSize: 16)),
-                          Text(
-                            '$minutesString:$secondsString',
-                            style: const TextStyle(
-                              fontSize: 30,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
+                      const Text('Time', style: TextStyle(fontSize: 16)),
+                      Text(
+                        StopWatchTimer.getDisplayTime(
+                          context.read<GameBloc>().timer.rawTime.value,
+                          hours: false,
+                          milliSecond: false,
+                        ),
+                        style: const TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                      Column(
-                        children: [
-                          const Text('Score', style: TextStyle(fontSize: 16)),
-                          Text(
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      const Text('Score', style: TextStyle(fontSize: 16)),
+                      BlocBuilder<GameBloc, GameState>(
+                        builder: (context, state) {
+                          return Text(
                             '${state.score}',
                             style: const TextStyle(
                               fontSize: 30,
                               fontWeight: FontWeight.bold,
                             ),
-                          ),
-                        ],
+                          );
+                        },
                       ),
                     ],
-                  );
-                },
+                  ),
+                ],
               ),
             ),
           ],
