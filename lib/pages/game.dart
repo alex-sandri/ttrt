@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -180,30 +181,36 @@ class _Grid extends StatefulWidget {
 class _GridState extends State<_Grid> {
   @override
   Widget build(BuildContext context) {
-    return SizedBox.square(
-      dimension: MediaQuery.of(context).size.width * 0.9,
-      child: GridView.builder(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: GamePage.itemsPerRow,
-        ),
-        itemCount: GamePage.itemsPerRow * GamePage.itemsPerRow,
-        itemBuilder: (context, index) {
-          final Color color = colors.random;
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final double maxSize =
+            min(constraints.maxHeight, constraints.maxWidth) * 0.9;
 
-          return GestureDetector(
-            onTap: () {
-              context.read<GameBloc>().handleTap(color);
-
-              setState(() {});
-            },
-            child: SizedBox.square(
-              dimension:
-                  MediaQuery.of(context).size.width / GamePage.itemsPerRow,
-              child: Container(color: color),
+        return SizedBox.square(
+          dimension: maxSize,
+          child: GridView.builder(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: GamePage.itemsPerRow,
             ),
-          );
-        },
-      ),
+            itemCount: GamePage.itemsPerRow * GamePage.itemsPerRow,
+            itemBuilder: (context, index) {
+              final Color color = colors.random;
+
+              return GestureDetector(
+                onTap: () {
+                  context.read<GameBloc>().handleTap(color);
+
+                  setState(() {});
+                },
+                child: SizedBox.square(
+                  dimension: maxSize / GamePage.itemsPerRow,
+                  child: Container(color: color),
+                ),
+              );
+            },
+          ),
+        );
+      },
     );
   }
 }
