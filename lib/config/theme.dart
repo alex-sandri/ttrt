@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ThemeConfig {
   static ThemeData dark() {
-    return ThemeData.from(
+    final ThemeData theme = ThemeData.from(
       colorScheme: ColorScheme.fromSeed(
         seedColor: Colors.blue,
         brightness: Brightness.dark,
@@ -16,6 +17,10 @@ class ThemeConfig {
           padding: MaterialStateProperty.all(const EdgeInsets.all(15)),
         ),
       ),
+    );
+
+    return theme.copyWith(
+      textTheme: GoogleFonts.montserratTextTheme(theme.textTheme),
     );
   }
 }
