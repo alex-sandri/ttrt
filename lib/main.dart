@@ -16,7 +16,7 @@ void main() {
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   SystemChrome.setEnabledSystemUIMode(
-    SystemUiMode.manual,
+    SystemUiMode.immersiveSticky,
     overlays: [SystemUiOverlay.bottom],
   );
 
