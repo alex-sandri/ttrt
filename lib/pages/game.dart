@@ -189,6 +189,7 @@ class _GridState extends State<_Grid> {
         return SizedBox.square(
           dimension: maxSize,
           child: GridView.builder(
+            physics: const NeverScrollableScrollPhysics(),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: GamePage.itemsPerRow,
             ),
