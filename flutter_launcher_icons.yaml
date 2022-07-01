@@ -3,3 +3,5 @@ flutter_icons:
   ios: true
   image_path: assets/images/flutter_launcher_icons/icon.png
   remove_alpha_ios: true
+  adaptive_icon_foreground: assets/images/flutter_launcher_icons/adaptive_icon_foreground.png
+  adaptive_icon_background: assets/images/flutter_launcher_icons/adaptive_icon_background.png
