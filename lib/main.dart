@@ -8,7 +8,9 @@ void main() {
   GoogleFonts.config.allowRuntimeFetching = false;
 
   LicenseRegistry.addLicense(() async* {
-    final license = await rootBundle.loadString('google_fonts/OFL.txt');
+    final String license =
+        await rootBundle.loadString('assets/fonts/Montserrat-OFL.txt');
+
     yield LicenseEntryWithLineBreaks(['google_fonts'], license);
   });
 
