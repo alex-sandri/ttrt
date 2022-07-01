@@ -1,4 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:ttrt/constants/preferences.dart';
 
 class PlayerState {
   final int? bestScore;
@@ -23,16 +24,16 @@ class PlayerState {
   Future<void> save() async {
     final SharedPreferences preferences = await SharedPreferences.getInstance();
 
-    await preferences.setInt('bestScore', bestScore!);
-    await preferences.setInt('bestScoreTime', bestScoreTime!);
+    await preferences.setInt(kBestScore, bestScore!);
+    await preferences.setInt(kBestScoreTime, bestScoreTime!);
   }
 
   static Future<PlayerState> restore() async {
     final SharedPreferences preferences = await SharedPreferences.getInstance();
 
     return PlayerState(
-      bestScore: preferences.getInt('bestScore'),
-      bestScoreTime: preferences.getInt('bestScoreTime'),
+      bestScore: preferences.getInt(kBestScore),
+      bestScoreTime: preferences.getInt(kBestScoreTime),
     );
   }
 }
