@@ -8,8 +8,8 @@ const RESOURCES = {
 "canvaskit/profiling/canvaskit.js": "ae2949af4efc61d28a4a80fffa1db900",
 "canvaskit/profiling/canvaskit.wasm": "95e736ab31147d1b2c7b25f11d4c32cd",
 "canvaskit/canvaskit.wasm": "4b83d89d9fecbea8ca46f2f760c5a9ba",
-"index.html": "3bd6899fd7fc2fc43c8c47ed76a7bcd2",
-"/": "3bd6899fd7fc2fc43c8c47ed76a7bcd2",
+"index.html": "605b940d72170c25dcd7f242abfee43b",
+"/": "605b940d72170c25dcd7f242abfee43b",
 "flutter.js": "0816e65a103ba8ba51b174eeeeb2cb67",
 "icons/Icon-maskable-192.png": "c457ef57daa1d16f64b27b786ec2ea3c",
 "icons/Icon-maskable-512.png": "301a7604d45b3e739efc881eb04896ea",
@@ -44,7 +44,7 @@ const RESOURCES = {
 "assets/assets/fonts/Montserrat-Italic.ttf": "df17124cad6f4767f3bf115f961a14b4",
 "assets/assets/fonts/Montserrat-Light.ttf": "a17f43cc60643d965636985afc00a221",
 "assets/NOTICES": "9e957081dfd8622dc91e7c4abebbe5d7",
-"main.dart.js": "49d24d0db5081bedad48bfafe0ea6ef4"
+"main.dart.js": "073315324d77a156ff14b292fbfa9c15"
 };
 
 // The application shell files that are downloaded before a service worker can
