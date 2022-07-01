@@ -20,7 +20,12 @@ class PlayerState {
         bestScoreTime: bestScoreTime ?? this.bestScoreTime,
       );
 
-  Future<void> save() async {}
+  Future<void> save() async {
+    final SharedPreferences preferences = await SharedPreferences.getInstance();
+
+    await preferences.setInt('bestScore', bestScore!);
+    await preferences.setInt('bestScoreTime', bestScoreTime!);
+  }
 
   static Future<PlayerState> restore() async {
     final SharedPreferences preferences = await SharedPreferences.getInstance();
