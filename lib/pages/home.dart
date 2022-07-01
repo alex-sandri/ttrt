@@ -127,36 +127,27 @@ class _Background extends StatefulWidget {
 }
 
 class _BackgroundState extends State<_Background> {
-  late final Timer _timer;
-
   final ScrollController _scrollController = ScrollController();
 
-  @override
-  void initState() {
-    const Duration duration = Duration(seconds: 5);
+  Future<void> _animate() async {
+    if (!mounted) {
+      return;
+    }
 
-    _timer = Timer.periodic(duration, (timer) {
-      if (!mounted) {
-        _timer.cancel();
+    await _scrollController.animateTo(
+      _scrollController.offset + 1000,
+      duration: const Duration(seconds: 5),
+      curve: Curves.linear,
+    );
 
-        return;
-      }
-
-      _scrollController.animateTo(
-        _scrollController.offset + 1000,
-        duration: duration,
-        curve: Curves.linear,
-      );
-    });
-
-    super.initState();
+    return _animate();
   }
 
   @override
-  void dispose() {
-    _timer.cancel();
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) => _animate());
 
-    super.dispose();
+    super.initState();
   }
 
   @override
