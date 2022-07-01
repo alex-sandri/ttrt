@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'package:ttrt/bloc/game/state.dart';
+import 'package:ttrt/bloc/player/bloc.dart';
 import 'package:ttrt/constants/colors.dart';
 
 class GameBloc extends Cubit<GameState> {
@@ -25,7 +26,7 @@ class GameBloc extends Cubit<GameState> {
   void changeCurrentColor() =>
       emit(state.copyWith(currentColor: colors.random));
 
-  void handleTap(Color color) {
+  Future<void> handleTap(Color color, {required BuildContext context}) async {
     if (state.currentColor != color) {
       final int errors = state.errors + 1;
 
@@ -34,6 +35,20 @@ class GameBloc extends Cubit<GameState> {
       return;
     }
 
-    emit(state.copyWith(score: state.score + 1));
+    final int score = state.score + 1;
+
+    emit(state.copyWith(score: score));
+
+    {
+      final int bestScore = context.read<PlayerBloc>().state.bestScore ?? 0;
+
+      if (score > bestScore) {
+        final PlayerBloc bloc = context.read<PlayerBloc>();
+
+        bloc.changeBestScore(score, timer.secondTime.value);
+
+        await bloc.save();
+      }
+    }
   }
 }

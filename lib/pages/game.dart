@@ -198,8 +198,10 @@ class _GridState extends State<_Grid> {
               final Color color = colors.random;
 
               return GestureDetector(
-                onTap: () {
-                  context.read<GameBloc>().handleTap(color);
+                onTap: () async {
+                  await context
+                      .read<GameBloc>()
+                      .handleTap(color, context: context);
 
                   setState(() {});
                 },

@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ttrt/app.dart';
+import 'package:ttrt/bloc/player/state.dart';
 
-void main() {
+void main() async {
   GoogleFonts.config.allowRuntimeFetching = false;
 
   LicenseRegistry.addLicense(() async* {
@@ -19,5 +20,7 @@ void main() {
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
-  runApp(const App());
+  final PlayerState playerState = await PlayerState.restore();
+
+  runApp(App(playerState: playerState));
 }
