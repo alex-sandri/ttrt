@@ -28,3 +28,4 @@ flutter:
 
   assets:
     - assets/fonts/
+    - assets/images/flutter_launcher_icons/
