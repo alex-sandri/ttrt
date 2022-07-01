@@ -8,14 +8,14 @@ const RESOURCES = {
 "canvaskit/profiling/canvaskit.js": "ae2949af4efc61d28a4a80fffa1db900",
 "canvaskit/profiling/canvaskit.wasm": "95e736ab31147d1b2c7b25f11d4c32cd",
 "canvaskit/canvaskit.wasm": "4b83d89d9fecbea8ca46f2f760c5a9ba",
-"index.html": "1ac9737a5b877b735e634d7a62327c88",
-"/": "1ac9737a5b877b735e634d7a62327c88",
+"index.html": "3bd6899fd7fc2fc43c8c47ed76a7bcd2",
+"/": "3bd6899fd7fc2fc43c8c47ed76a7bcd2",
 "flutter.js": "0816e65a103ba8ba51b174eeeeb2cb67",
 "icons/Icon-maskable-192.png": "c457ef57daa1d16f64b27b786ec2ea3c",
 "icons/Icon-maskable-512.png": "301a7604d45b3e739efc881eb04896ea",
 "icons/Icon-512.png": "96e752610906ba2a93c65f8abe1645f1",
 "icons/Icon-192.png": "ac9a721a12bbc803b44f645561ecb1e1",
-"manifest.json": "512ab637540351cf9d1d2041d8500d49",
+"manifest.json": "a89b40bb23cbf70716f65c93d5d00e5f",
 "version.json": "07e6c80a1cab40c2d5391daa782bfc8d",
 "assets/FontManifest.json": "7b2a36307916a9721811788013e65289",
 "assets/fonts/MaterialIcons-Regular.otf": "95db9098c58fd6db106f1116bae85a0b",
@@ -43,8 +43,8 @@ const RESOURCES = {
 "assets/assets/fonts/Montserrat-ExtraBold.ttf": "dc2f156b60f53c591fc0d2b98cbf01bf",
 "assets/assets/fonts/Montserrat-Italic.ttf": "df17124cad6f4767f3bf115f961a14b4",
 "assets/assets/fonts/Montserrat-Light.ttf": "a17f43cc60643d965636985afc00a221",
-"assets/NOTICES": "489a989944ceecb959dc43a4cc1a0786",
-"main.dart.js": "c2cc47809ad8520083ea2070935a377f"
+"assets/NOTICES": "9e957081dfd8622dc91e7c4abebbe5d7",
+"main.dart.js": "49d24d0db5081bedad48bfafe0ea6ef4"
 };
 
 // The application shell files that are downloaded before a service worker can
